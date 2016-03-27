@@ -8,6 +8,27 @@ public class Price
   {
     this.value=value;
   }
+  
+  public Price multiply(Integer numberProduct)
+  {    
+    return new Price(value * numberProduct);
+  }
+  
+  public Price add(Price price)
+  {    
+    return new Price(value + price.getValue());
+  }
+  
+  public Double getValue()
+  {
+    return value;
+  }
+
+  @Override
+  public String toString()
+  {
+    return "Price [value=" + value + "]";
+  }
 
   @Override
   public int hashCode()
@@ -36,10 +57,5 @@ public class Price
     else if (!value.equals(other.value))
       return false;
     return true;
-  }
-
-  public Double multiply(Integer numberProduct)
-  {    
-    return value * numberProduct;
   }
 }

@@ -10,9 +10,8 @@ public class PriceWithoutDiscount implements PricingRule
   }
   
   @Override
-  public Double calculator(Integer numberProduct)
+  public Price calculator(Integer numberProduct)
   {    
     return basePrice.multiply(numberProduct);
-  }
- 
+  } 
 }

@@ -7,30 +7,32 @@ import org.junit.Test;
 
 public class ScanTest
 {
-  private Product productA = new Product("A");
-  private Product productB = new Product("B");
+  private static final Price PRICE_B = new Price(30.0);
+  private static final Price PRICE_A = new Price(50.0);
+  private static final Product PRODUCT_A = new Product("A");
+  private static final Product PRODUCT_B = new Product("B");
   @Test
-  public void whenScanProductAThenReturnPriceA(){
+  public void whenScanProductAThenReturnPriceA()
+  {
     Calculator calculator =new Calculator();
-    calculator.registryRule(productA, new PriceWithoutDiscount(new Price(50.0)));
+    calculator.registryRule(PRODUCT_A, new PriceWithoutDiscount(PRICE_A));    
+    Checkout checkout = new Checkout(calculator); 
     
-    Checkout checkout = new Checkout(calculator);
+    checkout.scan(PRODUCT_A);
     
-    checkout.scan(productA);
-    
-    Price totalExpected= new Price(50.0) ;
+    Price totalExpected= PRICE_A ;
     assertThat(checkout.total(), equalTo(totalExpected));
   }  
   
   @Test
-  public void whenScanProductAandBThenReturnPriceAMoreB(){
-    
+  public void whenScanProductAandBThenReturnPriceAMoreB()
+  {    
     Calculator calculator =new Calculator();
-    calculator.registryRule(productA, new PriceWithoutDiscount(new Price(50.0)));
-    calculator.registryRule(productB, new PriceWithoutDiscount(new Price(30.0)));
+    calculator.registryRule(PRODUCT_A, new PriceWithoutDiscount(PRICE_A));
+    calculator.registryRule(PRODUCT_B, new PriceWithoutDiscount(PRICE_B));
     Checkout checkout = new Checkout(calculator);
-    checkout.scan(productA);
-    checkout.scan(productB);
+    checkout.scan(PRODUCT_A);
+    checkout.scan(PRODUCT_B);
     
     Price totalExpected= new Price(80.0) ;
     assertThat(checkout.total(), equalTo(totalExpected));

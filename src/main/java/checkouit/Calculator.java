@@ -11,16 +11,19 @@ public class Calculator
   
   public Price totalPrice(Map<Product, Integer> items)
   {
-    Double price = 0.0;
+    Price price = new Price(0.0);
     for (Entry<Product, Integer> item : items.entrySet())
     {
      Product product=item.getKey();
-     PricingRule rule = pricingRules.get(product);
-     
-     price = price + rule.calculator(item.getValue());
-     
+     PricingRule rule = pricingRules.get(product);     
+     price = price.add(calculator(item.getValue(), rule));     
     }
-    return new Price(price);
+    return price;
+  }
+
+  private Price calculator( Integer numberProduct, PricingRule rule)
+  {
+    return rule.calculator(numberProduct);
   }
   
   public void registryRule(Product product ,PricingRule rule)
