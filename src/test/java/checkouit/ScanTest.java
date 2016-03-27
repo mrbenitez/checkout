@@ -7,11 +7,16 @@ import org.junit.Test;
 
 public class ScanTest
 {
+  private Product productA = new Product("A");
+  private Product productB = new Product("B");
   @Test
   public void whenScanProductAThenReturnPriceA(){
-    Checkout checkout = new Checkout();
-    Product product = new Product("A");
-    checkout.scan(product);
+    Calculator calculator =new Calculator();
+    calculator.registryRule(productA, new PriceWithoutDiscount(new Price(50.0)));
+    
+    Checkout checkout = new Checkout(calculator);
+    
+    checkout.scan(productA);
     
     Price totalExpected= new Price(50.0) ;
     assertThat(checkout.total(), equalTo(totalExpected));
@@ -19,10 +24,12 @@ public class ScanTest
   
   @Test
   public void whenScanProductAandBThenReturnPriceAMoreB(){
-    Checkout checkout = new Checkout();
-    Product productA = new Product("A");
+    
+    Calculator calculator =new Calculator();
+    calculator.registryRule(productA, new PriceWithoutDiscount(new Price(50.0)));
+    calculator.registryRule(productB, new PriceWithoutDiscount(new Price(30.0)));
+    Checkout checkout = new Checkout(calculator);
     checkout.scan(productA);
-    Product productB = new Product("B");
     checkout.scan(productB);
     
     Price totalExpected= new Price(80.0) ;

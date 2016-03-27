@@ -37,4 +37,9 @@ public class Price
       return false;
     return true;
   }
+
+  public Double multiply(Integer numberProduct)
+  {    
+    return value * numberProduct;
+  }
 }
