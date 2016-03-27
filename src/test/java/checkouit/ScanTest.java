@@ -42,7 +42,7 @@ public class ScanTest
   public void whenScanProductBandBThenReturnPriceBWihtDiscount()
   {    
     Calculator calculator =new Calculator();
-     calculator.registryRule(PRODUCT_B, new PriceWithoutDiscount(PRICE_B));
+     calculator.registryRule(PRODUCT_B, new PriceWithDiscount(PRICE_B,new Price(45.0),2));
     Checkout checkout = new Checkout(calculator);
     checkout.scan(PRODUCT_B);
     checkout.scan(PRODUCT_B);
