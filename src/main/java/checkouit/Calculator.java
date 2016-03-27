@@ -1,5 +1,6 @@
 package checkouit;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -11,7 +12,7 @@ public class Calculator
   
   public Price totalPrice(Map<Product, Integer> items)
   {
-    Price price = new Price(0.0);
+    Price price = new Price(BigDecimal.ZERO);
     for (Entry<Product, Integer> item : items.entrySet())
     {
      Product product=item.getKey();
