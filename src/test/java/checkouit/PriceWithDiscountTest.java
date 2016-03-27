@@ -1,0 +1,38 @@
+package checkouit;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
+
+import org.junit.Test;
+
+public class PriceWithDiscountTest
+{
+    private PriceWithDiscount priceWithDiscount=new PriceWithDiscount(new Price(75.6),new Price(95.6),2);
+  
+    @Test
+  public void calculatorWhenHaveOnlyProductsNeccesaryToDiscount()
+  {  
+    Price priceTotal=priceWithDiscount.calculator(2);
+    
+    Price totalExpected= new Price(95.6);
+    assertThat(priceTotal, equalTo(totalExpected));
+  }  
+  
+  @Test
+  public void calculatorWhenHaveOnlyOneProductWithoutDiscount()
+  {  
+    Price priceTotal=priceWithDiscount.calculator(1);
+    
+    Price totalExpected= new Price(75.6);
+    assertThat(priceTotal, equalTo(totalExpected));
+  } 
+  
+  @Test
+  public void calculatorWhenHaveOnlyThreeProductsTwoWithDiscountAndOneWithoutDiscount()
+  {  
+    Price priceTotal=priceWithDiscount.calculator(3);
+    
+    Price totalExpected= new Price(171.2);
+    assertThat(priceTotal, equalTo(totalExpected));
+  } 
+}

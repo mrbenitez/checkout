@@ -1,25 +1,32 @@
 package checkouit;
 
+import java.math.BigDecimal;
+
 public class Price
 {
-  private Double value;
+  private BigDecimal value;
   
   public Price (Double value)
+  {
+    this.value=BigDecimal.valueOf(value);
+  }
+  
+  public Price (BigDecimal value)
   {
     this.value=value;
   }
   
   public Price multiply(Integer numberProduct)
   {    
-    return new Price(value * numberProduct);
+    return new Price(value.multiply(new BigDecimal(numberProduct)));
   }
   
   public Price add(Price price)
   {    
-    return new Price(value + price.getValue());
+    return new Price(value.add(price.getValue()));
   }
   
-  public Double getValue()
+  public BigDecimal getValue()
   {
     return value;
   }
