@@ -7,12 +7,13 @@ import org.junit.Test;
 
 public class PriceWithDiscountTest
 {
-    private PriceWithDiscount priceWithDiscount=new PriceWithDiscount(new Price(75.6),new Price(95.6),2);
+  private Discount discount = new Discount(new Price(95.6),2);
+  private PriceWithDiscount priceWithDiscount=new PriceWithDiscount(new Price(75.6),discount);
   
-    @Test
+  @Test
   public void calculatorWhenHaveOnlyProductsNeccesaryToDiscount()
   {  
-    Price priceTotal=priceWithDiscount.calculator(2);
+    Price priceTotal=priceWithDiscount.calculatorPrice(2);
     
     Price totalExpected= new Price(95.6);
     assertThat(priceTotal, equalTo(totalExpected));
@@ -21,7 +22,7 @@ public class PriceWithDiscountTest
   @Test
   public void calculatorWhenHaveOnlyOneProductWithoutDiscount()
   {  
-    Price priceTotal=priceWithDiscount.calculator(1);
+    Price priceTotal=priceWithDiscount.calculatorPrice(1);
     
     Price totalExpected= new Price(75.6);
     assertThat(priceTotal, equalTo(totalExpected));
@@ -30,7 +31,7 @@ public class PriceWithDiscountTest
   @Test
   public void calculatorWhenHaveOnlyThreeProductsTwoWithDiscountAndOneWithoutDiscount()
   {  
-    Price priceTotal=priceWithDiscount.calculator(3);
+    Price priceTotal=priceWithDiscount.calculatorPrice(3);
     
     Price totalExpected= new Price(171.2);
     assertThat(priceTotal, equalTo(totalExpected));

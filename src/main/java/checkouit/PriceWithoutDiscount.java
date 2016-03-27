@@ -1,6 +1,6 @@
 package checkouit;
 
-public class PriceWithoutDiscount implements PricingRule
+public class PriceWithoutDiscount implements PriceRule
 {
   private Price basePrice;
   
@@ -10,7 +10,7 @@ public class PriceWithoutDiscount implements PricingRule
   }
   
   @Override
-  public Price calculator(Integer numberProduct)
+  public Price calculatorPrice(Integer numberProduct)
   {    
     return basePrice.multiply(numberProduct);
   } 

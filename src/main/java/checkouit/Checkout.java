@@ -5,24 +5,21 @@ import java.util.Map;
 
 public class Checkout
 {
-  Calculator calculator;
-  private Map<Product, Integer> items = new HashMap<>();
+  private HandlerRules handler;
+  private PurchaseList purchaseList = new PurchaseList();
   
-  public Checkout(Calculator calculator)
+  public Checkout(HandlerRules handler)
   {
-    this.calculator=calculator;
+    this.handler=handler;
   }
   
   public void scan(Product product)
   {
-    if(!items.containsKey(product)){
-      items.put(product, 0);
-    }
-    items.put(product, items.get(product)+1);
+    purchaseList.add(product);
   }
 
-  public Price total()
+  public Price totalPrice()
   {    
-    return calculator.totalPrice(items);
+    return handler.calculatorTotalPrice(purchaseList);
   }
 }

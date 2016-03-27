@@ -1,30 +1,37 @@
 package checkouit;
 
-public class PriceWithDiscount implements PricingRule
+public class PriceWithDiscount implements PriceRule
 {
   private Price basePrice;
-  private Price discountPrice;
-  private Integer numberProductToDiscount;
+  private Discount discount;
   
-  public PriceWithDiscount(Price basePrice,Price discountPrice,Integer numberProductDiscount)
+  public PriceWithDiscount(Price basePrice,Discount discount)
   {
    this.basePrice=basePrice;
-   this.discountPrice=discountPrice;
-   this.numberProductToDiscount=numberProductDiscount;
+   this.discount=discount;
   }
   
   @Override
-  public Price calculator(Integer numberProduct)
+  public Price calculatorPrice(Integer numberProduct)
   {    
-    Integer groupProductWithDiscount = numberProduct / numberProductToDiscount;
-    
-    Price productWihtDiscountPrice= discountPrice.multiply(groupProductWithDiscount);
-    Price productWithoutDiscountPrice=basePrice.multiply(calculateNumberProductWithoutDiscount(numberProduct, groupProductWithDiscount));        
+    Integer groupProductWithDiscount = numberProduct / discount.getNumberProductToDiscount();    
+    Price productWihtDiscountPrice = calculatePriceToProductWithDiscount(groupProductWithDiscount);
+    Price productWithoutDiscountPrice=calculatePriceToProductWithoutDiscount(numberProduct, groupProductWithDiscount);        
     return productWihtDiscountPrice.add(productWithoutDiscountPrice); 
-  }
+  }  
 
+  private Price calculatePriceToProductWithoutDiscount(Integer numberProduct, Integer groupProductWithDiscount)
+  {
+    return basePrice.multiply(calculateNumberProductWithoutDiscount(numberProduct, groupProductWithDiscount));
+  }
+  
   private int calculateNumberProductWithoutDiscount(Integer numberProduct, Integer groupProductWithDiscount)
   {
-    return numberProduct - (groupProductWithDiscount*numberProductToDiscount);
+    return numberProduct - (groupProductWithDiscount*discount.getNumberProductToDiscount());
   } 
+
+  private Price calculatePriceToProductWithDiscount(Integer groupProductWithDiscount)
+  {
+    return discount.getDiscountPrice().multiply(groupProductWithDiscount);
+  }  
 }

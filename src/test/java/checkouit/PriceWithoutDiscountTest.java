@@ -12,7 +12,7 @@ public class PriceWithoutDiscountTest
   {    
     PriceWithoutDiscount priceWithoutDiscount=new PriceWithoutDiscount(new Price(75.6));
     
-    Price priceTotal=priceWithoutDiscount.calculator(10);
+    Price priceTotal=priceWithoutDiscount.calculatorPrice(10);
     
     Price totalExpected= new Price(756.0);
     assertThat(priceTotal, equalTo(totalExpected));

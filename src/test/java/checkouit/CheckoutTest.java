@@ -8,10 +8,8 @@ import org.junit.Test;
 
 public class CheckoutTest
 {
-  private static final Integer NUMBER_PRODUCT_A_TO_DISCOUNT = 3;
-  private static final Price DISCOUNT_PRICE_A = new Price(130.0);  
-  private static final Integer NUMBER_PRODUCT_B_TO_DISCOUNT = 2;
-  private static final Price DISCOUNT_PRICE_B = new Price(45.0);  
+  private static final Discount DISCOUNT_A = new Discount(new Price(130.0), 3);
+  private static final Discount DISCOUNT_B = new Discount(new Price(45.0), 2);
   private static final Price PRICE_A = new Price(50.0);
   private static final Price PRICE_B = new Price(30.0);
   private static final Price PRICE_C = new Price(20.0);
@@ -21,16 +19,16 @@ public class CheckoutTest
   private static final Product PRODUCT_C = new Product("C");
   private static final Product PRODUCT_D = new Product("D");
   
-  private Calculator calculator =new Calculator();
+  private HandlerRules handler =new HandlerRules();
   private Checkout checkout; 
   @Before
   public void setUp()
   {
-    calculator.registryRule(PRODUCT_A, new PriceWithDiscount(PRICE_A,DISCOUNT_PRICE_A,NUMBER_PRODUCT_A_TO_DISCOUNT));    
-    calculator.registryRule(PRODUCT_B, new PriceWithDiscount(PRICE_B,DISCOUNT_PRICE_B,NUMBER_PRODUCT_B_TO_DISCOUNT));
-    calculator.registryRule(PRODUCT_C, new PriceWithoutDiscount(PRICE_C));  
-    calculator.registryRule(PRODUCT_D, new PriceWithoutDiscount(PRICE_D));  
-    checkout= new Checkout(calculator);
+    handler.registryRule(PRODUCT_A, new PriceWithDiscount(PRICE_A,DISCOUNT_A));    
+    handler.registryRule(PRODUCT_B, new PriceWithDiscount(PRICE_B,DISCOUNT_B));
+    handler.registryRule(PRODUCT_C, new PriceWithoutDiscount(PRICE_C));  
+    handler.registryRule(PRODUCT_D, new PriceWithoutDiscount(PRICE_D));  
+    checkout= new Checkout(handler);
   }
   
   @Test
@@ -39,7 +37,7 @@ public class CheckoutTest
     checkout.scan(PRODUCT_A);
     
     Price totalExpected= PRICE_A ;
-    assertThat(checkout.total(), equalTo(totalExpected));
+    assertThat(checkout.totalPrice(), equalTo(totalExpected));
   }  
   
   @Test
@@ -49,7 +47,7 @@ public class CheckoutTest
     checkout.scan(PRODUCT_B);
     
     Price totalExpected= new Price(80.0) ;
-    assertThat(checkout.total(), equalTo(totalExpected));
+    assertThat(checkout.totalPrice(), equalTo(totalExpected));
   }
   
   @Test
@@ -58,8 +56,8 @@ public class CheckoutTest
     checkout.scan(PRODUCT_B);
     checkout.scan(PRODUCT_B);
     
-    Price totalExpected= DISCOUNT_PRICE_B ;
-    assertThat(checkout.total(), equalTo(totalExpected));
+    Price totalExpected= new Price(45.0) ;
+    assertThat(checkout.totalPrice(), equalTo(totalExpected));
   }
     
   @Test
@@ -75,6 +73,6 @@ public class CheckoutTest
     checkout.scan(PRODUCT_B);
     
     Price totalExpected= new Price(240.0);
-    assertThat(checkout.total(), equalTo(totalExpected));
+    assertThat(checkout.totalPrice(), equalTo(totalExpected));
   }  
 }
